@@ -3,198 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>FidaPintar - Belajar Seru!</title>
-
-  <meta name="description" content="FidaPintar adalah game edukasi membaca dan matematika untuk anak SD. Belajar jadi lebih menyenangkan dan interaktif.">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="FidaPintar - Belajar Seru!">
-  <meta property="og:description" content="Game edukasi membaca dan matematika interaktif untuk anak SD. Belajar jadi lebih menyenangkan!">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/4149/4149675.png">
-
+  <title>FidaPintar - Belajar Bersama Kuromi!</title>
+  
   <!-- Favicon -->
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/4149/4149675.png">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3209/3209931.png">
 
   <style>
+    :root {
+      --kuromi-purple: #9b59b6;
+      --kuromi-pink: #ff85a2;
+      --kuromi-black: #2c3e50;
+      --bg-gradient: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg, #5f2c82, #49a09d);
+      background: var(--bg-gradient);
+      height: 100vh;
       overflow: hidden;
-      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    #loading {
+    /* Partikel Sparkle & Love di Background */
+    .decorations {
       position: fixed;
-      width: 100%;
-      height: 100%;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .sparkle {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px white;
+      animation: flash var(--d) infinite ease-in-out;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Kontainer Utama Loading */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
-      text-align: center;
+      z-index: 100;
+      transition: opacity 0.8s ease;
     }
 
-    /* ICON */
-    .icon {
-      width: 120px;
-      margin-bottom: 20px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 25px;
-    }
-
-    /* PROGRESS CIRCLE */
-    .circle {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 6px solid rgba(255,255,255,0.2);
+    /* Kuromi Section */
+    .kuromi-container {
       position: relative;
-    }
-
-    .fill {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 6px solid transparent;
-      border-top: 6px solid #ffffff;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
-
-    .percent {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      margin-bottom: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 22px;
-      font-weight: bold;
+      min-height: 250px;
     }
 
-    /* BINTANG BACKGROUND */
-    .stars {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: -1;
+    .kuromi-img {
+      width: 250px; /* Ukuran disesuaikan agar tidak terlalu besar */
+      height: auto;
+      border-radius: 20px; /* Membuat sudut gambar lebih lembut */
+      z-index: 2;
+      filter: drop-shadow(0 10px 20px rgba(155, 89, 182, 0.4));
+      animation: dance 2s infinite ease-in-out;
+      border: 5px solid white; /* Memberi bingkai putih agar terlihat seperti stiker */
     }
 
-    .stars span {
+    @keyframes dance {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      25% { transform: translateY(-15px) rotate(-3deg) scale(1.02); }
+      75% { transform: translateY(-15px) rotate(3deg) scale(1.02); }
+    }
+
+    /* Lingkaran Sihir di Belakang Kuromi */
+    .magic-circle {
       position: absolute;
-      width: 4px;
-      height: 4px;
-      background: white;
+      width: 320px;
+      height: 320px;
+      border: 5px dashed var(--kuromi-purple);
       border-radius: 50%;
-      opacity: 0.6;
-      animation: twinkle 2s infinite alternate;
+      animation: spin 10s linear infinite;
+      opacity: 0.3;
     }
 
-    @keyframes twinkle {
-      from { opacity: 0.2; }
-      to { opacity: 1; }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    #app {
+    /* Progress Bar (Pita Cantik) */
+    .loader-wrapper {
+      width: 320px;
+      position: relative;
+      text-align: center;
+    }
+
+    .progress-track {
+      height: 22px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 30px;
+      padding: 3px;
+      border: 3px solid var(--kuromi-pink);
+      box-shadow: 0 4px 15px rgba(255, 133, 162, 0.3);
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff85a2, #9b59b6);
+      border-radius: 30px;
+      transition: width 0.4s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Efek Berkilau pada Fill */
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      animation: shine 1.2s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Runner di atas loading bar */
+    .runner {
+      position: absolute;
+      top: -55px;
+      left: 0%;
+      transform: translateX(-50%);
+      font-size: 45px;
+      transition: left 0.4s ease-out;
+      z-index: 10;
+      filter: drop-shadow(0 4px 5px rgba(0,0,0,0.1));
+    }
+
+    /* Iframe & App */
+    #app-container {
       display: none;
       width: 100%;
       height: 100vh;
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity 1s ease;
     }
 
     iframe {
       width: 100%;
       height: 100%;
       border: none;
-      background: white;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="stars" id="stars"></div>
+  <!-- Dekorasi Latar Belakang -->
+  <div class="decorations" id="decorations"></div>
 
-  <div id="loading">
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    
+    <div class="kuromi-container">
+      <div class="magic-circle"></div>
+      <!-- Gambar Kuromi & My Melody Baru -->
+      <img 
+        src="https://static0.cbrimages.com/wordpress/wp-content/uploads/2025/05/sanrio-s-kuromi-my-melody-are-ready-to-puzzle-fans-with-skeletal-anniversary-toy-launch-2.jpg" 
+        alt="Kuromi and My Melody"
+        class="kuromi-img"
+        onerror="this.src='https://cdn-icons-png.flaticon.com/512/3209/3209931.png';"
+      >
+    </div>
 
-    <img src="https://cdn-icons-png.flaticon.com/512/4149/4149675.png" class="icon">
-
-    <h1>Loading FidaPintar...</h1>
-
-    <div class="circle">
-      <div class="fill"></div>
-      <div class="percent" id="percent">0%</div>
+    <div class="loader-wrapper">
+      <div class="runner" id="runner">🎀</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
     </div>
 
   </div>
 
-  <div id="app">
-    <iframe src="https://script.google.com/macros/s/AKfycbyA8DgpMp2EoBQYPg-Em9qMX1Ug33yeLw_2PH7iLbFkSrrHcvQkQTl3USCoNHfUNHw/exec"></iframe>
+  <!-- Game Container -->
+  <div id="app-container">
+    <iframe src="https://script.google.com/macros/s/AKfycbzj7UPWSclpLw7VJjudKFau0F18e-RlLWBaaYf-4y1c6EroHuCPmofBe5NxtHE6nas/exec"></iframe>
   </div>
 
   <script>
-    // Generate bintang
-    const starsContainer = document.getElementById("stars");
-    for (let i = 0; i < 40; i++) {
-      let star = document.createElement("span");
-      star.style.top = Math.random() * 100 + "%";
-      star.style.left = Math.random() * 100 + "%";
-      star.style.animationDuration = (1 + Math.random() * 2) + "s";
-      starsContainer.appendChild(star);
+    // Membuat Efek Kerlip Bintang dan Hati
+    function initBackground() {
+      const container = document.getElementById('decorations');
+      const types = ['sparkle', 'heart'];
+      for (let i = 0; i < 45; i++) {
+        const item = document.createElement('div');
+        item.className = 'sparkle';
+        const size = Math.random() * 6 + 4 + 'px';
+        item.style.width = size;
+        item.style.height = size;
+        item.style.left = Math.random() * 100 + 'vw';
+        item.style.top = Math.random() * 100 + 'vh';
+        item.style.setProperty('--d', (Math.random() * 2 + 1) + 's');
+        if (Math.random() > 0.7) {
+            item.style.borderRadius = '0';
+            item.style.clipPath = 'path("M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z")';
+            item.style.background = '#ff85a2';
+        }
+        container.appendChild(item);
+      }
     }
 
-    let progress = 0;
-    const percent = document.getElementById("percent");
+    // Logic Loading
+    function startLoading() {
+      let progress = 0;
+      const fill = document.getElementById("progress-fill");
+      const runner = document.getElementById("runner");
+      const screen = document.getElementById("loading-screen");
+      const app = document.getElementById("app-container");
 
-    const interval = setInterval(() => {
-      progress += Math.random() * 6;
+      const interval = setInterval(() => {
+        progress += Math.random() * 8;
 
-      if (progress >= 100) progress = 100;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          finishLoading();
+        }
 
-      percent.innerText = Math.floor(progress) + "%";
+        fill.style.width = progress + "%";
+        runner.style.left = progress + "%";
+        
+        // Ganti emoji pelari untuk variasi
+        if(progress > 25 && progress < 30) runner.innerText = '🌸';
+        if(progress > 50 && progress < 55) runner.innerText = '⭐';
+        if(progress > 75 && progress < 80) runner.innerText = '🍭';
+        if(progress > 95) runner.innerText = '👑';
 
-      if (progress === 100) {
-        clearInterval(interval);
+      }, 200);
 
+      function finishLoading() {
         setTimeout(() => {
-          document.getElementById("loading").style.display = "none";
-          const app = document.getElementById("app");
-          app.style.display = "block";
-
+          screen.style.opacity = "0";
           setTimeout(() => {
-            app.style.opacity = 1;
-            document.body.style.overflow = "auto";
-          }, 50);
-
-        }, 500);
+            screen.style.display = "none";
+            app.style.display = "block";
+            setTimeout(() => {
+              app.style.opacity = "1";
+            }, 50);
+          }, 800);
+        }, 800);
       }
+    }
 
-    }, 120);
+    window.onload = () => {
+      initBackground();
+      startLoading();
+    };
   </script>
-
 </body>
 </html>
